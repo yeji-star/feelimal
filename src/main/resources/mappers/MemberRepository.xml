@@ -20,7 +20,7 @@
 		LAST_INSERT_ID()
 	</select>
 
-	<select id="getMemberByLoginId" resultType="Member">
+	<select id="getMemberByLoginId" resultType="com.example.feel.vo.Member">
 		SELECT *
 		FROM member
 		WHERE loginId = #{loginId}
