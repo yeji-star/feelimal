@@ -28,15 +28,31 @@
 		form.classList.toggle("hidden");
 	}
 </script>
+
+<style>
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+</style>
+
+
 </head>
 
 <!-- 🟠 전체 화면 배경 + 중앙 정렬을 위한 기본 설정 -->
-<body class="bg-cream min-h-screen flex flex-col">
+<body class="bg-cream min-h-screen flex flex-col m-0 p-0">
+
+	<!-- 로그인 팝업창 -->
+	<c:if test="${!rq.isLogined()}">
+		<%@ include file="/WEB-INF/jsp/feelimals/home/popup-login.jspf"%>			
+	</c:if>
+
 
 	<!-- 상단 메뉴 -->
 	<%@ include file="/WEB-INF/jsp/feelimals/common/head.jspf"%>
 
-	<!-- 중앙 컨텐츠: flex-grow로 남은 영역 채우고 정중앙 정렬 -->
+	<!-- 중앙... 메인 -->
 	<main class="flex-grow flex items-center justify-center text-center">
 		<div class="flex flex-col items-center space-y-4">
 			<!-- 캐릭터 이미지 -->
@@ -50,17 +66,6 @@
 
 				<button onclick="toggleLogin()"
 					class="px-6 py-2 rounded-full bg-button hover:bg-[#ffc987] transition font-medium shadow-sm">로그인</button>
-				<!-- 로그인 입력 폼 (숨겨짐) -->
-				<form id="loginForm" action="feelimals/member/doLogin" method="post" class="hidden flex flex-col items-center space-y-4 mt-4">
-					<input type="text" name="loginId" placeholder="아이디"
-						class="w-64 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300">
-
-					<input type="password" name="loginPw" placeholder="비밀번호"
-						class="w-64 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-300">
-
-					<button type="submit" class="bg-[#FFA852] text-white px-6 py-2 rounded-full shadow hover:bg-[#ff9444] transition">
-						로그인 하기</button>
-				</form>
 			</c:if>
 			<c:if test="${rq.isLogined() }">
 				<!-- 환영 메시지 -->

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.feel.service.MemberService;
 import com.example.feel.vo.Member;
+import com.example.feel.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,6 +18,9 @@ public class UserMemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private Rq rq;
 
 	// 회원가입 폼
 
@@ -60,7 +64,6 @@ public class UserMemberController {
 	// 로그아웃
 
 	@RequestMapping("/feelimals/member/doLogout")
-	@ResponseBody
 	public String doLogout(HttpServletRequest req) {
 
 		HttpSession session = req.getSession();
