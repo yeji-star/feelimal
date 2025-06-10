@@ -5,9 +5,10 @@
 
 <mapper namespace="com.example.feel.repository.MemberRepository">
 
-	<insert id="doJoin">
+	<insert id="doJoin" parameterType="map">
 		INSERT INTO member
-		SET regDate = NOW(),
+		SET regDate
+		= NOW(),
 		updateDate = NOW(),
 		loginId = #{loginId},
 		loginPw =
@@ -20,7 +21,14 @@
 		LAST_INSERT_ID()
 	</select>
 
-	<select id="getMemberByLoginId" resultType="com.example.feel.vo.Member">
+	<select id="getMemberById" parameterType="int"
+		resultType="com.example.feel.vo.Member">
+		SELECT * FROM `member`
+		WHERE id = #{id}
+	</select>
+
+	<select id="getMemberByLoginId" parameterType="string"
+		resultType="com.example.feel.vo.Member">
 		SELECT *
 		FROM member
 		WHERE loginId = #{loginId}

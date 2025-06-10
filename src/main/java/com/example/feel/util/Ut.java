@@ -23,15 +23,11 @@ public class Ut {
 
 		return Ut.f("""
 				<script>
-					let resultMsg = '%s'.trim();
-
-					if(resultMsg.length > 0) {
-						alert(resultMsg);
-						}
-
-						location.replace('%s');
+				  alert('%s');
+				  top.location.replace('%s');
 				</script>
-				""", resultMsg, replaceUri);
+				""", msg, replaceUri);
+
 	}
 
 	public static String jsHistoryBack(String resultCode, String msg) {

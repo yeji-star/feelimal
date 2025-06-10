@@ -2,11 +2,13 @@ package com.example.feel.vo;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.example.feel.service.MemberService;
 import com.example.feel.util.Ut;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +27,9 @@ import lombok.Setter;
 @Setter
 public class Rq {
 
+	@Autowired
+	private MemberService memberService;
+
 	private final HttpServletRequest req;
 	private final HttpServletResponse resp;
 	private final HttpSession session;
@@ -33,10 +38,15 @@ public class Rq {
 
 	private int loginedMemberId = 0;
 
+	private Member loginedMember;
+
 	public Rq(HttpServletRequest req, HttpServletResponse resp) {
 		this.req = req;
 		this.resp = resp;
 		this.session = req.getSession();
+		
+		System.out.println("🟠 Rq 생성됨");
+	    System.out.println("세션에 loginedMemberId = " + session.getAttribute("loginedMemberId"));
 
 		if (session.getAttribute("loginedMemberId") != null) {
 
@@ -81,7 +91,9 @@ public class Rq {
 	}
 
 	public void login(Member member) {
+		System.out.println("✅ rq.login() 호출됨, id = " + member.getId());
 		session.setAttribute("loginedMemberId", member.getId());
+		System.out.println("✅ 세션 저장 완료: " + session.getAttribute("loginedMemberId"));
 
 	}
 
@@ -91,23 +103,39 @@ public class Rq {
 	}
 
 	public String historyBackOnView(String msg) {
-		req.setAttribute("msq", msg);
+		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack", true);
-		return "user/common/js";
+		return "/feelimals/common/js";
 	}
-	
+
+	public String jsReturnOnView(String msg, String replaceUri) { // js 리턴용
+		req.setAttribute("msg", msg);
+		req.setAttribute("replaceUri", replaceUri);
+		req.setAttribute("historyBack", false);
+		return "/feelimals/common/js"; 
+	}
+
 	public String getCurrentUri() {
 		String currentUri = req.getRequestURI();
 		String queryString = req.getQueryString();
-		
+
 		System.out.println(currentUri);
 		System.out.println(queryString);
-		
-		if(currentUri != null && queryString != null) {
+
+		if (currentUri != null && queryString != null) {
 			currentUri += "?" + queryString;
 		}
-		
+
 		return currentUri;
+	}
+
+	public Member getLoginedMember() {
+		if (!isLogined)
+			return null;
+		if (loginedMember == null) {
+			loginedMember = memberService.getMemberById(loginedMemberId);
+		}
+		return loginedMember;
 	}
 
 }

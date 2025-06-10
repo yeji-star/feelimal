@@ -27,6 +27,13 @@
 		const form = document.getElementById("loginForm");
 		form.classList.toggle("hidden");
 	}
+
+	function toggleJoin() {
+		const form = document.getElementById("joinForm");
+		
+		
+		form.classList.toggle("hidden");
+	}
 </script>
 
 <style>
@@ -45,7 +52,8 @@ html, body {
 
 	<!-- 로그인 팝업창 -->
 	<c:if test="${!rq.isLogined()}">
-		<%@ include file="/WEB-INF/jsp/feelimals/home/popup-login.jspf"%>			
+		<%@ include file="/WEB-INF/jsp/feelimals/member/popup-login.jspf"%>
+		<%@ include file="/WEB-INF/jsp/feelimals/member/popup-join.jspf"%>
 	</c:if>
 
 
@@ -63,13 +71,18 @@ html, body {
 				<div class="text-lg font-medium text-gray-800">나와 대화해보지 않을래?</div>
 
 				<!-- 로그인 폼 버튼 -->
-
 				<button onclick="toggleLogin()"
 					class="px-6 py-2 rounded-full bg-button hover:bg-[#ffc987] transition font-medium shadow-sm">로그인</button>
+
+				<!-- 회원가입 링크 -->
+				<div class="text-xs text-gray-600 mt-2">
+					계정이 없는 거야?
+					<a href="#" onclick="toggleJoin()" class="text-orange-500 hover:underline">회원가입</a>
+				</div>
 			</c:if>
 			<c:if test="${rq.isLogined() }">
 				<!-- 환영 메시지 -->
-				<div class="text-lg font-medium text-gray-800">${userName},어서와!</div>
+				<div class="text-lg font-medium text-gray-800">${rq.loginedMember.nickname}, 어서와!</div>
 
 				<!-- 대화 시작 버튼 -->
 				<form action="/chat">
