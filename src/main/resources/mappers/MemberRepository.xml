@@ -13,7 +13,8 @@
 		loginId = #{loginId},
 		loginPw =
 		#{loginPw},
-		nickname = #{nickname}
+		nickname = #{nickname},
+		email = #{email};
 	</insert>
 
 	<select id="getLastInsertId" parameterType="int">

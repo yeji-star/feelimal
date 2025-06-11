@@ -30,8 +30,7 @@
 
 	function toggleJoin() {
 		const form = document.getElementById("joinForm");
-		
-		
+
 		form.classList.toggle("hidden");
 	}
 </script>
@@ -85,15 +84,14 @@ html, body {
 				<div class="text-lg font-medium text-gray-800">${rq.loginedMember.nickname}, 어서와!</div>
 
 				<!-- 대화 시작 버튼 -->
-				<form action="/chat">
+				<form action="../chat">
 					<button class="px-6 py-2 rounded-full bg-button hover:bg-[#ffc987] transition font-medium shadow-sm">대화 시작
 					</button>
 				</form>
 				<li>
-					<a onclick="if(confirm('로그아웃 하시겠습니까?') == false) return false;" class="hover:underline" href="../member/doLogout">LOGOUT</a>
+					<a onclick="if(confirm('로그아웃 할래?') == false) return false;" class="hover:text-red-600" href="../member/doLogout">LOGOUT</a>
 				</li>
 			</c:if>
-
 
 		</div>
 	</main>

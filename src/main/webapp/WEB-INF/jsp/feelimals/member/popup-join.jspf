@@ -19,6 +19,7 @@
 				<input type="text" name="loginId" placeholder="아이디" class="px-4 py-2 border rounded-md">
 				<input type="password" name="loginPw" placeholder="비밀번호" class="px-4 py-2 border rounded-md">
 				<input type="text" name="nickname" placeholder="닉네임" class="px-4 py-2 border rounded-md">
+				<input type="text" name="email" placeholder="이메일" class="px-4 py-2 border rounded-md">
 				<button type="submit" class="bg-[#FFA852] text-white px-4 py-2 rounded-full hover:bg-[#ff9444] transition">회원가입</button>
 			</form>
 		</div>
