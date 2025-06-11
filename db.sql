@@ -11,6 +11,7 @@ CREATE TABLE `member` (
   `loginId` VARCHAR(100) NOT NULL,
   `loginPw` VARCHAR(100) NOT NULL,
   `nickname` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
   `userImage` VARCHAR(255),
   `delStatus` TINYINT(1) NOT NULL DEFAULT 0,
   `delDate` DATETIME
@@ -43,7 +44,7 @@ CREATE TABLE `emoTag` (
 CREATE TABLE `chatDiary` (
   `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `userId` INT(10) UNSIGNED NOT NULL,
-  `content` TEXT NOT NULL,
+  `body` TEXT NOT NULL,
   `isChat` BOOLEAN DEFAULT FALSE,
   `emoTagId` INT(10) UNSIGNED NOT NULL,
   `regDate` DATETIME NOT NULL,
@@ -131,7 +132,13 @@ SET regDate = NOW(),
 	updateDate = NOW(),
 	loginId = 'test1',
 	loginPw = 'test1',
-	nickname = 'test1';
+	nickname = 'test1',
+	email = 'test1@gmail.com';
+	
+SELECT *
+FROM `member`;
+
+DESC `member`;
 
 #########
 

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일기 쓰기</title>
+<title>일기 작성</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#FAF7F5] min-h-screen">
@@ -30,7 +30,7 @@
 			</div>
 
 			<!-- 캐릭터 이미지 (우측 하단) -->
-			<div class="absolute bottom-[-30px] right-[-30px] w-20 h-20 rounded-full bg-center bg-contain bg-no-repeat"
+			<div class="absolute bottom-10 right-10 w-24 h-24 rounded-full bg-center bg-contain bg-no-repeat"
 				style="background-image: url('/resource/images/animals/${sessionScope.user.characterImg}');"></div>
 		</form>
 	</main>
