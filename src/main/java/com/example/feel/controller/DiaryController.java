@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.feel.service.DiaryService;
@@ -65,7 +66,13 @@ public class DiaryController {
 	// 일기 보기
 
 	@RequestMapping("/feelimals/diary/detail")
-	public String showDetail(HttpServletRequest req, Model model, int id) {
+	public String showDetail(HttpServletRequest req, Model model,@RequestParam(required=false) Integer id) {
+		 System.out.println("넘어온 id: " + id); // 확인 로그
+		 
+		 if (id == null) {
+		        return "common/error"; // 임시 에러 페이지
+		    }
+		 
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		Diary diary = diaryService.getForPrintDiary(rq.getLoginedMemberId(), id);

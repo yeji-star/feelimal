@@ -17,10 +17,12 @@ public interface DiaryRepository {
 
 	public List<Diary> getForPrintDiaries(int userId);
 
-	public Diary getForPrintDiary(int loginedMemberId);
+	public Diary getForPrintDiary(int id);
 
 	public void modifyDiary(int id, String body);
 
 	public void deleteDiary(int id);
+	
+	public List<Diary> getAllDiaries();
 
 }

@@ -9,9 +9,13 @@
 	font-style: normal;
 }
 
+html {
+	background-color: #FAF7F5;
+}
+
 html>body {
+	background-color: #FAF7F5;
 	font-family: 'GowunDodum-Regular', sans;
-	background-color: aliceblue;
 }
 
 a {
@@ -32,7 +36,7 @@ header>div>ul>li>ul>li {
 }
 
 header>div>ul>li>ul {
-	background-color: white;
+
 	display: none;
 	position: absolute;
 }

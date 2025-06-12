@@ -14,13 +14,15 @@ import lombok.NoArgsConstructor;
 public class Diary {
 
 	private int id;
-	private int userId;
+	private int memberId;
 	private int emoTagId;
 	private String regDate;
 	private String updateDate;
 	private String body;
 	private boolean delStatus;
 	private LocalDateTime delDate;
+	
+	private String writer;
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;

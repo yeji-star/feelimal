@@ -41,7 +41,7 @@ html, body {
 					<a href="/feelimals/chat" class="hover:underline">대화</a>
 				</li>
 				<li>
-					<a href="/feelimals/diary" class="hover:underline">일기</a>
+					<a href="/feelimals/diary/list" class="hover:underline">일기</a>
 				</li>
 				<li>
 					<a href="/feelimals/calendar" class="hover:underline">달력</a>

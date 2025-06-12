@@ -20,7 +20,7 @@
 			<div class="text-gray-600 text-lg font-medium">오늘 하루는 어땠어?</div>
 
 			<!-- 일기 입력 -->
-			<textarea name="content" rows="12" placeholder="여기에 오늘 어땠는지 적어봐."
+			<textarea name="body" rows="12" placeholder="여기에 오늘 어땠는지 적어봐."
 				class="w-full p-4 rounded-md border border-transparent resize-none focus:outline-none focus:ring-2 focus:ring-orange-200"></textarea>
 
 			<!-- 버튼 -->

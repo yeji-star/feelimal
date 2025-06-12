@@ -5,16 +5,19 @@
 
 <mapper namespace="com.example.feel.repository.DiaryRepository">
 
-	<insert id="doDiaryWrite" parameterType="map">
+	<insert id="doDiaryWrite"
+		parameterType="com.example.feel.vo.Diary">
 		INSERT INTO chatDiary
 		SET regDate
 		= NOW(),
-		updateDate = NOW(),
-		userId = #{userId},
-		content =
-		#{content},
+		updateDate =
+		NOW(),
+		memberId = #{memberId},
+		`body` =
+		#{body},
 		isChat = FALSE,
-		emoTagId = #{emoTagId};
+		emoTagId =
+		#{emoTagId}
 	</insert>
 
 	<delete id="deleteDiary" parameterType="int">
@@ -23,7 +26,8 @@
 		= #{id}
 	</delete>
 
-	<update id="modifyDiary" parameterType="map">
+	<update id="modifyDiary"
+		parameterType="com.example.feel.vo.Diary">
 		UPDATE chatDiary
 		<set>
 			<if test="body != null and body != ''">`body` = #{body},</if>
@@ -38,63 +42,43 @@
 	</select>
 
 	<select id="getForPrintDiary" parameterType="int"
-		resultType="com.example.demo.vo.Diary">
-		SELECT A.*, M.nickname AS extra__writer
+		resultType="com.example.feel.vo.Diary">
+		SELECT C.*, M.nickname AS writer
 		FROM chatDiary AS C
-		INNER JOIN `member`
+		INNER
+		JOIN `member`
 		AS M
-		ON A.memberId = M.id
-		WHERE A.id = #{id};
+		ON c.memberId = M.id
+		WHERE c.id = #{id}
 	</select>
-	
-		<select id="getDiaryById" parameterType="int"
-		resultType="com.example.demo.vo.Diary">
+
+	<select id="getDiaryById" parameterType="int"
+		resultType="com.example.feel.vo.Diary">
 		SELECT *
 		FROM chatDiary
 		WHERE id = #{id}
 	</select>
-	
+
 	<select id="getForPrintDiaries"
-		resultType="com.example.demo.vo.Diary">
-		SELECT C.*,  M.nickname AS extra__writer
+		resultType="com.example.feel.vo.Diary">
+		SELECT C.*, M.nickname AS writer
 		FROM chatDiary AS C
-		INNER JOIN `member` AS M
-		ON A.memberId
+		INNER
+		JOIN `member` AS M
+		ON c.memberId
 		= M.id
 		WHERE 1
-		<if test="searchKeyword != ''">
-			<choose>
-				<when test="searchKeywordTypeCode == 'body'">
-					AND A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
-				</when>
-
-				<when test="searchKeywordTypeCode == 'nickname'">
-					AND A.nickname LIKE CONCAT('%', #{searchKeyword},
-					'%')
-				</when>
-
-				<otherwise>
-					AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
-					OR
-					A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
-				</otherwise>
-			</choose>
-		</if>
 		GROUP BY C.id
 		ORDER BY C.id
 		DESC
-		<if test="limitFrom >= 0">
-			LIMIT #{limitFrom}, #{limitTake}
-		</if>
-
 	</select>
-	
-		<select id="getDiaries"
-		resultType="com.example.demo.vo.Diary">
-		SELECT C.*, M.nickname AS extra__writer
+
+	<select id="getDiaries" resultType="com.example.feel.vo.Diary">
+		SELECT C.*, M.nickname AS
+		writer
 		FROM chatDiary AS C
 		INNER JOIN `member` AS M
-		ON A.memberId = M.id
+		ON C.memberId = M.id
 		ORDER BY C.id
 		DESC
 	</select>
@@ -112,11 +96,11 @@
 		WHERE loginId = #{loginId}
 	</select>
 
-	<select id="getDiaryById" parameterType="int"
-		resultType="com.example.demo.vo.Diary">
-		SELECT *
-		FROM chatDiary
-		WHERE id =#{id}
-	</select>
+	<select id="getAllDiaries" resultType="Diary">
+    SELECT id, memberId, body, regDate
+    FROM diary
+    WHERE delStatus = 0
+    ORDER BY regDate ASC
+  </select>
 
 </mapper>

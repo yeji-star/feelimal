@@ -21,7 +21,7 @@ public class DiaryService {
 
 		int id = diaryRepository.getLastInsertId();
 
-		return ResultData.from("", "이런 일이 있었구나.", "등록된 일기장 id", id);
+		return ResultData.from("S-1", "이런 일이 있었구나.", "등록된 일기장 id", id);
 		
 	}
 
@@ -55,11 +55,11 @@ public class DiaryService {
 	}
 
 	public ResultData userCanModify(int loginedMemberId, Diary diary) {
-		if (diary.getUserId() != loginedMemberId) {
-			return ResultData.from("", "이 일기는 수정할 수 없어.");
+		if (diary.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-1", "이 일기는 수정할 수 없어.");
 		}
 
-		return ResultData.from("", "수정 할 수 있어.");
+		return ResultData.from("S-1", "수정 가능해.");
 	}
 
 	public void modifyDiary(int id, String body) {
@@ -68,16 +68,20 @@ public class DiaryService {
 	}
 
 	public ResultData userCanDelete(int loginedMemberId, Diary diary) {
-		if (diary.getUserId() != loginedMemberId) {
-			return ResultData.from("", "이 일기는 삭제할 수 없어.");
+		if (diary.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-1", "이 일기는 삭제할 수 없어.");
 		}
 
-		return ResultData.from("", "삭제 할 수 있어.");
+		return ResultData.from("S-1", "삭제 가능해.");
 	}
 
 	public void deleteDiary(int id) {
 		diaryRepository.deleteDiary(id);
 		
 	}
+	
+	public List<Diary> getAllDiaries() {
+        return diaryRepository.getAllDiaries();
+    }
 
 }
