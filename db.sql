@@ -12,7 +12,7 @@ CREATE TABLE `member` (
   `loginPw` VARCHAR(100) NOT NULL,
   `nickname` VARCHAR(50) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
-  `userImage` VARCHAR(255),
+  `memberImage` VARCHAR(255),
   `delStatus` TINYINT(1) NOT NULL DEFAULT 0,
   `delDate` DATETIME
 );
@@ -27,88 +27,88 @@ CREATE TABLE `chara` (
 );
 
 CREATE TABLE `charaEmo` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `charaId` INT(10) UNSIGNED NOT NULL,
-  `emoId` INT(10) UNSIGNED NOT NULL,
-  `emoType` VARCHAR(50) NOT NULL,
-  `image` VARCHAR(100) NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `charaId` int(10) UNSIGNED NOT NULL,
+  `emoId` int(10) UNSIGNED NOT NULL,
+  `emoType` varchar(50) NOT NULL,
+  `image` varchar(100) NOT NULL
 );
 
 CREATE TABLE `emoTag` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `label` CHAR(20) UNIQUE NOT NULL,
-  `icon` CHAR(20) NOT NULL,
-  `color` CHAR(10) NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `label` char(20) UNIQUE NOT NULL,
+  `icon` char(20) NOT NULL,
+  `color` char(10) NOT NULL
 );
 
 CREATE TABLE `chatDiary` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `userId` INT(10) UNSIGNED NOT NULL,
-  `body` TEXT NOT NULL,
-  `isChat` BOOLEAN DEFAULT FALSE,
-  `emoTagId` INT(10) UNSIGNED NOT NULL,
-  `regDate` DATETIME NOT NULL,
-  `updateDate` DATETIME NOT NULL,
-  `delStatus` TINYINT(1) NOT NULL DEFAULT 0,
-  `delDate` DATETIME
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `memberId` int(10) UNSIGNED NOT NULL,
+  `body` text NOT NULL,
+  `isChat` boolean DEFAULT false,
+  `emoTagId` int(10) UNSIGNED NOT NULL,
+  `regDate` datetime NOT NULL,
+  `updateDate` datetime NOT NULL,
+  `delStatus` tinyint(1) NOT NULL DEFAULT 0,
+  `delDate` datetime
 );
 
 CREATE TABLE `diartEmo` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `chatdiaryId` INT(10) UNSIGNED NOT NULL,
-  `emoTagId` INT(10) UNSIGNED NOT NULL,
-  `score` FLOAT NOT NULL,
-  `source` CHAR(50) NOT NULL,
-  `regDate` DATETIME NOT NULL,
-  `updateDate` DATETIME NOT NULL,
-  `delStatus` TINYINT(1) NOT NULL,
-  `delDate` DATETIME
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `chatdiaryId` int(10) UNSIGNED NOT NULL,
+  `emoTagId` int(10) UNSIGNED NOT NULL,
+  `score` float NOT NULL,
+  `source` char(50) NOT NULL,
+  `regDate` datetime NOT NULL,
+  `updateDate` datetime NOT NULL,
+  `delStatus` tinyint(1) NOT NULL,
+  `delDate` datetime
 );
 
 CREATE TABLE `emotionFeedback` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `emoTagId` INT(10) UNSIGNED NOT NULL,
-  `message` TEXT NOT NULL,
-  `emoType` CHAR(20) NOT NULL,
-  `regDate` DATETIME NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `emoTagId` int(10) UNSIGNED NOT NULL,
+  `message` text NOT NULL,
+  `emoType` char(20) NOT NULL,
+  `regDate` datetime NOT NULL
 );
 
 CREATE TABLE `aiReply` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `chatdiaryId` INT(10) UNSIGNED NOT NULL,
-  `reply` TEXT NOT NULL,
-  `regDate` DATETIME NOT NULL,
-  `updateDate` DATETIME NOT NULL,
-  `model` CHAR(50) NOT NULL,
-  `delStatus` TINYINT(1) NOT NULL,
-  `delDate` DATETIME
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `chatdiaryId` int(10) UNSIGNED NOT NULL,
+  `reply` text NOT NULL,
+  `regDate` datetime NOT NULL,
+  `updateDate` datetime NOT NULL,
+  `model` char(50) NOT NULL,
+  `delStatus` tinyint(1) NOT NULL,
+  `delDate` datetime
 );
 
 CREATE TABLE `calendar` (
-  `date` DATE PRIMARY KEY NOT NULL,
-  `year` INT(10) NOT NULL,
-  `month` INT(10) NOT NULL,
-  `day` INT(10) NOT NULL,
-  `dayName` CHAR(10) NOT NULL,
-  `isWeekend` BOOLEAN,
-  `isHoliday` BOOLEAN DEFAULT FALSE
+  `date` date PRIMARY KEY NOT NULL,
+  `year` int(10) NOT NULL,
+  `month` int(10) NOT NULL,
+  `day` int(10) NOT NULL,
+  `dayName` char(10) NOT NULL,
+  `isWeekend` boolean,
+  `isHoliday` boolean DEFAULT false
 );
 
 CREATE TABLE `settings` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `userId` INT(10) UNSIGNED NOT NULL,
-  `charaId` INT(10) UNSIGNED NOT NULL,
-  `alert` BOOLEAN NOT NULL DEFAULT TRUE,
-  `updateDate` DATETIME NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `memberId` int(10) UNSIGNED NOT NULL,
+  `charaId` int(10) UNSIGNED NOT NULL,
+  `alert` boolean NOT NULL DEFAULT true,
+  `updateDate` datetime NOT NULL
 );
 
 ALTER TABLE `charaEmo` ADD FOREIGN KEY (`charaId`) REFERENCES `chara` (`id`);
 
 ALTER TABLE `emotionFeedback` ADD FOREIGN KEY (`emoTagId`) REFERENCES `emoTag` (`id`);
 
-ALTER TABLE `settings` ADD FOREIGN KEY (`userId`) REFERENCES `member` (`id`);
+ALTER TABLE `settings` ADD FOREIGN KEY (`memberId`) REFERENCES `member` (`id`);
 
-ALTER TABLE `chatDiary` ADD FOREIGN KEY (`userId`) REFERENCES `member` (`id`);
+ALTER TABLE `chatDiary` ADD FOREIGN KEY (`memberId`) REFERENCES `member` (`id`);
 
 ALTER TABLE `diartEmo` ADD FOREIGN KEY (`chatdiaryId`) REFERENCES `chatDiary` (`id`);
 
@@ -127,18 +127,65 @@ SHOW TABLES;
 
 # 테스트 데이터 (유저)
 
-INSERT INTO `member`
-SET regDate = NOW(),
-	updateDate = NOW(),
+insert into `member`
+set regDate = now(),
+	updateDate = now(),
 	loginId = 'test1',
 	loginPw = 'test1',
 	nickname = 'test1',
 	email = 'test1@gmail.com';
 	
-SELECT *
-FROM `member`;
+INSERT INTO `member`
+SET regDate = NOW(),
+	updateDate = NOW(),
+	loginId = 'test2',
+	loginPw = 'test2',
+	nickname = 'test2',
+	email = 'test2@gmail.com';
 
-DESC `member`;
+# 테스트 데이터 (감정 태그)
+
+INSERT INTO emoTag
+SET
+  label = '행복',
+  icon = '😊',
+  color = '#FFD700'; -- 노랑
+
+INSERT INTO emoTag
+SET
+  label = '우울',
+  icon = '😔',
+  color = '#A0A0A0'; -- 회색
+
+# 테스트 데이터 (일기)
+
+INSERT INTO chatDiary
+SET
+  memberId = 1,
+  `body` = '오늘은 오랜만에 햇살이 따뜻했어.',
+  isChat = FALSE,
+  emoTagId = 1,
+  regDate = NOW(),
+  updateDate = NOW(),
+  delStatus = 0;
+
+INSERT INTO chatDiary
+SET
+  memberId = 1,
+  `body` = '조금 힘들었지만 잘 견뎠어.',
+  isChat = FALSE,
+  emoTagId = 2,
+  regDate = NOW(),
+  updateDate = NOW(),
+  delStatus = 0;
+
+select *
+from `member`;
+
+SELECT * FROM emoTag;
+SELECT * FROM chatDiary;
+
+desc `member`;
 
 #########
 
