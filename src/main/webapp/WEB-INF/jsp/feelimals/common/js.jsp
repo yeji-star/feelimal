@@ -13,4 +13,3 @@
 
 	history.back();
 </script>
-

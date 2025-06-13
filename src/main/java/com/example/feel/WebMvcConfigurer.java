@@ -46,12 +46,12 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
 		ir.excludePathPatterns("/error");
 		
 		ir = registry.addInterceptor(needLoginInterceptor);
-		ir.addPathPatterns("/feelimals/diary");
+		ir.addPathPatterns("/feelimals/diary/list");
 		ir.addPathPatterns("/feelimals/diary/write");
 		ir.addPathPatterns("/feelimals/diary/doWrite");
 		ir.addPathPatterns("/feelimals/chat");
-		ir.addPathPatterns("/feelimals/calendar");
-		ir.addPathPatterns("/feelimals/settings");
+		ir.addPathPatterns("/feelimals/calendar/events");
+		
 		
 		ir = registry.addInterceptor(needLogoutInterceptor);
 		ir.addPathPatterns("/feelimals/member/login");

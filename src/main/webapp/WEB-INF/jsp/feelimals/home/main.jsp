@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 상단 메뉴 -->
+<%@ include file="/WEB-INF/jsp/feelimals/common/head.jspf"%>
 <meta charset="UTF-8">
 <title>${pageTitle}</title>
 
@@ -49,15 +51,15 @@ html, body {
 <!-- 🟠 전체 화면 배경 + 중앙 정렬을 위한 기본 설정 -->
 <body class="bg-cream min-h-screen flex flex-col m-0 p-0">
 
+	<%@ include file="/WEB-INF/jsp/feelimals/common/header.jspf"%>
+
+	<%@ include file="/WEB-INF/jsp/feelimals/common/settings.jspf"%>
+
 	<!-- 로그인 팝업창 -->
 	<c:if test="${!rq.isLogined()}">
 		<%@ include file="/WEB-INF/jsp/feelimals/member/popup-login.jspf"%>
 		<%@ include file="/WEB-INF/jsp/feelimals/member/popup-join.jspf"%>
 	</c:if>
-
-
-	<!-- 상단 메뉴 -->
-	<%@ include file="/WEB-INF/jsp/feelimals/common/head.jspf"%>
 
 	<!-- 중앙... 메인 -->
 	<main class="flex-grow flex items-center justify-center text-center">
@@ -81,7 +83,7 @@ html, body {
 			</c:if>
 			<c:if test="${rq.isLogined() }">
 				<!-- 환영 메시지 -->
-				<div class="text-lg font-medium text-gray-800">${rq.loginedMember.nickname}, 어서와!</div>
+				<div class="text-lg font-medium text-gray-800">${rq.loginedMember.nickname},어서와!</div>
 
 				<!-- 대화 시작 버튼 -->
 				<form action="../chat">
@@ -95,6 +97,5 @@ html, body {
 
 		</div>
 	</main>
-
 </body>
 </html>

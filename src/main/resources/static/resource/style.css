@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'GowunDodum-Regular';
+	src:
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#settingOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 40;
+}
+
+#settingOverlay.show {
+  display: block;
+}
+
+#setting {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #FFD8B1;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  z-index: 50;
+}
+
+#setting.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.setting-content {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  display: none;
+}
+
+.setting-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}

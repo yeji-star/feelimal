@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.feel.repository.CalendarRepository">
+
+  <!-- 일정 목록 (캘린더용) -->
+  <select id="getAllForCalendar" resultType="com.example.feel.vo.Calendar">
+    SELECT *
+    FROM chatDiary
+    WHERE memberId = #{memberId}
+    ORDER BY regDate DESC
+  </select>
+
+  <!-- 일정 1건 상세 조회 -->
+  <select id="getCalendarById" resultType="com.example.feel.vo.Calendar">
+    SELECT *
+    FROM chatDiary
+    WHERE id = #{id}
+  </select>
+
+  <!-- 일정 수정 -->
+  <update id="modifyCalendar">
+    UPDATE chatDiary
+    SET
+      body = #{body},
+      emoTagId = #{emoTagId},
+      updateDate = NOW()
+    WHERE id = #{id}
+  </update>
+
+  <!-- 일정 삭제 -->
+  <delete id="deleteCalendar">
+    DELETE FROM chatDiary
+    WHERE id = #{id}
+  </delete>
+
+</mapper>

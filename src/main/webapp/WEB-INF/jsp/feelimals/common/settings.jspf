@@ -1,0 +1,46 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<link rel="stylesheet" href="/resource/style.css" />
+
+<script src="/resource/common.js" defer="defer"></script>
+
+<body>
+	<!-- ✅ 배경 클릭 시 닫히는 오버레이 (body 바로 아래에 있어야 함!) -->
+	<div id="settingOverlay" class="fixed inset-0 bg-black bg-opacity-30 z-40 hidden" onclick="closeSetting()"></div>
+
+	<!-- ✅ 설정 패널 (지금 쓰는 거 그대로 유지) -->
+	<div id="settingPanel"
+		class="fixed top-0 right-0 w-[250px] h-full bg-[#FFD8B1] z-50 
+            transform translate-x-full opacity-0 pointer-events-none 
+            transition-all duration-300 ease-in-out shadow-lg"
+		onclick="event.stopPropagation()">
+		<div class="flex justify-between items-center p-4 font-bold border-b border-orange-300">
+			<span>설정</span>
+			<button onclick="closeSetting()" class="text-xl">&times;</button>
+		</div>
+		<ul class="p-4 space-y-4 text-lg">
+			<li>
+				<i class="fas fa-user"></i>
+				프로필
+			</li>
+			<li>
+				<i class="fas fa-paw"></i>
+				동물 캐릭터
+			</li>
+			<li>
+				<i class="fas fa-user-friends"></i>
+				계정
+			</li>
+			<li>
+				<i class="fas fa-bell"></i>
+				알림
+			</li>
+		</ul>
+	</div>
+
+</body>
+
+
+
+
