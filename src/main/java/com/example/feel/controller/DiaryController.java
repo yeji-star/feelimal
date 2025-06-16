@@ -1,5 +1,6 @@
 package com.example.feel.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,32 +54,35 @@ public class DiaryController {
 
 	@RequestMapping("/feelimals/diary/list")
 	public String showList(HttpServletRequest req, Model model) {
-
 		int userId = rq.getLoginedMemberId();
 
 		List<Diary> diaries = diaryService.getForPrintDiaries(userId);
-
 		model.addAttribute("diaries", diaries);
 
-		return "feelimals/diary/list";
+		// 오늘 날짜 기준 연/월 계산해서 넘기기
+		LocalDate today = LocalDate.now();
+		model.addAttribute("year", today.getYear());
+		model.addAttribute("month", today.getMonthValue());
+
+		return "feelimals/diary/list"; // 이건 JSP 파일명
 	}
 
 	// 일기 보기
 
 	@RequestMapping("/feelimals/diary/detail")
-	public String showDetail(HttpServletRequest req, Model model,@RequestParam(required=false) Integer id) {
-		 System.out.println("넘어온 id: " + id); // 확인 로그
-		 
-		 if (id == null) {
-		        return "common/error"; // 임시 에러 페이지
-		    }
-		 
+	public String showDetail(HttpServletRequest req, Model model, @RequestParam(required = false) Integer id) {
+		System.out.println("넘어온 id: " + id); // 확인 로그
+
+		if (id == null) {
+			return "feelimals/common/error"; // 임시 에러 페이지
+		}
+
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		Diary diary = diaryService.getForPrintDiary(rq.getLoginedMemberId(), id);
-		
+
 		if (diary == null) {
-		    return rq.historyBackOnView("존재하지 않는 일기야.");
+			return rq.historyBackOnView("존재하지 않는 일기야.");
 		}
 
 		model.addAttribute("diary", diary);
@@ -125,7 +129,7 @@ public class DiaryController {
 		if (userCanModifyRd.isSuccess()) {
 			diaryService.modifyDiary(id, body);
 		}
-		
+
 		diary = diaryService.getDiaryById(id);
 
 		return Ut.jsReplace("", "수정 완료했어.", "/feelimals/diary/detail?id=" + id);
@@ -154,8 +158,14 @@ public class DiaryController {
 		if (userCanDeleteRd.isSuccess()) {
 			diaryService.deleteDiary(id);
 		}
-		
+
 		return Ut.jsReplace("", "삭제했어.", "/feelimals/diary/list");
 	}
+
+	/*
+	 * @RequestMapping("feelimals/calendar") public String
+	 * showCalendar(HttpServletRequest req, Model model) { // 필요한 데이터 불러오기 return
+	 * "usr/calendar/calendar"; // ⇒ /WEB-INF/jsp/usr/calendar/calendar.jsp }
+	 */
 
 }
