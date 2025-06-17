@@ -10,6 +10,7 @@ import com.example.feel.repository.ChatRepository;
 import com.example.feel.repository.DiaryRepository;
 import com.example.feel.util.Ut;
 import com.example.feel.vo.Chat;
+import com.example.feel.vo.ChatWithAi;
 import com.example.feel.vo.Diary;
 import com.example.feel.vo.ResultData;
 
@@ -39,6 +40,26 @@ public class ChatService {
 
 	public List<Chat> getListByMemberId(int memberId) {
 		return chatRepository.getListByMemberId(memberId);
+	}
+
+	public ChatWithAi getChatWithAiByChatId(int chatId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<ChatWithAi> getChatWithAiListByMemberId(int memberId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void modifyChat(int memberId, int chatId, String newBody) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void deleteById(int memberId, int chatId) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 	

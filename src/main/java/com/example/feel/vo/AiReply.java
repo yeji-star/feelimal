@@ -11,17 +11,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Chat {
+public class AiReply {
 
-	private int id;
-    private int memberId;
-    private int emoTagId;
-    private String body;
+    private int id;
+    private int chatdiaryId;
+    private String reply;
     private String regDate;
     private String updateDate;
+    private String model;
     private boolean delStatus;
     private LocalDateTime delDate;
-	
-	private boolean isChat;
 
 }
