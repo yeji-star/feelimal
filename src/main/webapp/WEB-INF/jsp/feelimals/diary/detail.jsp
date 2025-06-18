@@ -31,7 +31,7 @@
 
 			<!-- 그만 볼래 버튼 -->
 			<div class="absolute bottom-4 right-4">
-				<a href="/feelimals/diary/list" class="bg-[#FFD8A1] px-3 py-1 rounded-md shadow text-sm">그만 볼래</a>
+				<a href="/feelimals/chatDiary/list" class="bg-[#FFD8A1] px-3 py-1 rounded-md shadow text-sm">그만 볼래</a>
 			</div>
 		</div>
 

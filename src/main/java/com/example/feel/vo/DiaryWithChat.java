@@ -22,7 +22,7 @@ public class DiaryWithChat {
 	private boolean delStatus;
 	private LocalDateTime delDate;
 	
-	private boolean chat;
+	private Boolean isChat;
 	private String writer;
 	
 	private String aiReply;

@@ -16,6 +16,7 @@ public class Chat {
 	private int id;
     private int memberId;
     private int emoTagId;
+    private int chatSessionId;
     private String body;
     private String regDate;
     private String updateDate;

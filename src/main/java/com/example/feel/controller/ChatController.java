@@ -41,62 +41,63 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
+    // 채팅 시작
+    
     @PostMapping("")
     @ResponseBody
-    public ResultData<ChatWithAi> doWrite(@RequestParam String body) {
+    public ResultData<List<ChatWithAi>> doWrite(@RequestParam String body) {
         
     	// 사용자 찾기
     	int memberId = rq.getLoginedMemberId();
+    	
+    	// 새 세션 생성
+    	int sessionId = chatService.createNewChatSession(memberId);
         
         // 1. 사용자 메시지 저장
-        int chatId = chatService.writeUserMessage(memberId, body);
+        int chatId = chatService.writeUserMessage(memberId, sessionId, body);
         
-        // 2. Flask에 요청 보내기
+        // 2. Flask에 요청 보내
         String answer = chatService.askToFlask(body);
         
         // 3. AI 응답 저장
         chatService.writeAiReply(chatId, answer, "gpt-3.5-turbo");
         
         // 4. 사용자 메시지 리턴
-        ChatWithAi ChatWithAi = chatService.getChatWithAiByChatId(chatId);
+        List<ChatWithAi> messages = chatService.getChatsWithAiBySessionId(sessionId);
         
-        return ResultData.from("S-1", "AI 응답 완료", "chat", ChatWithAi);
-    }
-
-    // 리스트
-    
-   
-    @GetMapping("/list")
-    public String showList(Model model) {
-        int memberId = rq.getLoginedMemberId();
-        List<ChatWithAi> chatList = chatService.getChatWithAiListByMemberId(memberId);
-        model.addAttribute("chats", chatList);
-        return "feelimals/chat/list";
+        return ResultData.from("S-1", "채팅 성공", "messages", messages);
     }
     
     // 상세 화면
     
     @GetMapping("/detail")
-    public String showDetail(@RequestParam int id, Model model) {
+    public String showDetail(@RequestParam int sessionId, Model model) {
         int memberId = rq.getLoginedMemberId();
-        ChatWithAi chat = chatService.getChatWithAiByChatId(id);
-        model.addAttribute("chat", chat);
+        
+        List<ChatWithAi> messages = chatService.getChatsWithAiBySessionId(sessionId);
+        
+        model.addAttribute("messages", messages);
+        
         return "feelimals/chat/detail";
     }
     
-    @PostMapping("/modify")
+    @PostMapping("/continue")
     @ResponseBody
-    public ResultData<?> doModify(@RequestParam int chatId, @RequestParam String newBody) {
+    public ResultData<?> doContinue(@RequestParam int chatId, @RequestParam String newBody) {
         int memberId = rq.getLoginedMemberId();
+        
         chatService.modifyChat(memberId, chatId, newBody);
-        return ResultData.from("S-1", "수정 완료");
+        
+        return ResultData.from("S-1", "수정 했어.");
     }
 
     @PostMapping("/delete")
     @ResponseBody
     public ResultData<?> doDelete(@RequestParam int chatId) {
         int memberId = rq.getLoginedMemberId();
+        
         chatService.deleteById(memberId, chatId);
-        return ResultData.from("S-1", "삭제 완료");
+        
+        return ResultData.from("S-1", "삭제 했어.");
     }
 }

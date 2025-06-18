@@ -11,20 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatWithAi {
+public class ChatSession {
 
-    // chatDiary
-    private int id;
+	private int id;
     private int memberId;
-    private int chatSessionId;
-    private String body;
-    private boolean isChat;
-    private int emoTagId;
+    private String title;
     private String regDate;
-
-    // aiReply
-    private String aiReply;
-    private String model;
-    private String aiRegDate;
+    private String updateDate;
+    private boolean delStatus;
+    private LocalDateTime delDate;
 
 }

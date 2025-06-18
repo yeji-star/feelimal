@@ -21,7 +21,7 @@ public interface ChatRepository {
 
 	public List<Chat> getListByMemberId(int memberId);
 
-	public ChatWithAi getChatWithAiByChatId(int chatId);
+	public List<ChatWithAi> getChatsWithAiBySessionId(int chatId);
 
 	public List<ChatWithAi> getChatWithAiListByMemberId(int memberId);
 

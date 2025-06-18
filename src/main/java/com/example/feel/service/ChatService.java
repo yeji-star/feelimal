@@ -27,7 +27,7 @@ public class ChatService {
 	private ChatRepository chatRepository;
 
 	// 사용자 메시지 저장
-	public int writeUserMessage(int memberId, String body) {
+	public int writeUserMessage(int memberId, int sessionId, String body) {
 		boolean isChat = true;
 		chatRepository.writeUserMessage(memberId, body, true);
 		return chatRepository.getLastInsertId();
@@ -65,9 +65,9 @@ public class ChatService {
 	}
 
 	// 봇 대화
-	public ChatWithAi getChatWithAiByChatId(int chatId) {
+	public List<ChatWithAi> getChatsWithAiBySessionId(int chatId) {
 		
-		return chatRepository.getChatWithAiByChatId(chatId);
+		return chatRepository.getChatsWithAiBySessionId(chatId);
 	}
 
 	// 사용자의 대화
@@ -86,6 +86,11 @@ public class ChatService {
 	public void deleteById(int memberId, int chatId) {
 		chatRepository.deleteById(memberId, chatId);
 
+	}
+
+	public int createNewChatSession(int memberId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

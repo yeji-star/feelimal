@@ -50,23 +50,6 @@ public class DiaryController {
 		return "redirect:/feelimals/diary/list";
 	}
 
-	// 일기 목록
-
-	@RequestMapping("/feelimals/diary/list")
-	public String showList(HttpServletRequest req, Model model) {
-		int userId = rq.getLoginedMemberId();
-
-		List<Diary> diaries = diaryService.getForPrintDiaries(userId);
-		model.addAttribute("diaries", diaries);
-
-		// 오늘 날짜 기준 연/월 계산해서 넘기기
-		LocalDate today = LocalDate.now();
-		model.addAttribute("year", today.getYear());
-		model.addAttribute("month", today.getMonthValue());
-
-		return "feelimals/diary/list"; // 이건 JSP 파일명
-	}
-
 	// 일기 보기
 
 	@RequestMapping("/feelimals/diary/detail")
