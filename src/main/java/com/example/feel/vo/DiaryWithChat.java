@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Diary {
+public class DiaryWithChat {
 
 	private int id;
 	private int memberId;
@@ -22,8 +22,12 @@ public class Diary {
 	private boolean delStatus;
 	private LocalDateTime delDate;
 	
-	private boolean isChat;
+	private boolean chat;
 	private String writer;
+	
+	private String aiReply;
+	private String aiModel;
+	private String aiReplyRegDate;
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;

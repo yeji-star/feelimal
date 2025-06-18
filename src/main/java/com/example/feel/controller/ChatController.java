@@ -51,21 +51,8 @@ public class ChatController {
         // 1. 사용자 메시지 저장
         int chatId = chatService.writeUserMessage(memberId, body);
         
-        // 2. Flask 서버에 메시지 전달
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:5000/get-answer";
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        
-        JSONObject requestJson = new JSONObject();
-        requestJson.put("question", body);
-        
-        HttpEntity<String> entity = new HttpEntity<>(requestJson.toString(), headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-        
-        JSONObject jsonResponse = new JSONObject(response.getBody());
-        String answer = jsonResponse.getString("answer");
+        // 2. Flask에 요청 보내기
+        String answer = chatService.askToFlask(body);
         
         // 3. AI 응답 저장
         chatService.writeAiReply(chatId, answer, "gpt-3.5-turbo");

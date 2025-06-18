@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.feel.vo.Chat;
+import com.example.feel.vo.ChatWithAi;
 
 @Mapper
 public interface ChatRepository {
@@ -19,5 +20,13 @@ public interface ChatRepository {
 	public Chat getChatById(int chatId);
 
 	public List<Chat> getListByMemberId(int memberId);
+
+	public ChatWithAi getChatWithAiByChatId(int chatId);
+
+	public List<ChatWithAi> getChatWithAiListByMemberId(int memberId);
+
+	public void modifyChat(int memberId, int chatId, String newBody);
+
+	public void deleteById(int memberId, int chatId);
 }
 

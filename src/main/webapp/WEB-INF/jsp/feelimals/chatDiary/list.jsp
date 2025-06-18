@@ -16,9 +16,17 @@ keyframes fadeDrop { 0% {
 
 
 
+
+
+
+
 %
 {
 transform
+
+
+
+
 
 
 
@@ -28,10 +36,22 @@ transform
 
 
 
+
+
+
+
 translateY
 
 
+
+
+
+
 (
+
+
+
+
 
 
 
@@ -41,11 +61,23 @@ translateY
 
 
 
+
+
+
+
 )
+
+
+
+
 
 
 ;
 opacity
+
+
+
+
 
 
 
@@ -55,7 +87,15 @@ opacity
 
 
 
+
+
+
+
 1
+
+
+
+
 
 
 ;
@@ -95,18 +135,34 @@ opacity
 
 			<!-- 메모지 리스트 -->
 			<div class="flex flex-wrap gap-4">
-				<c:forEach var="diary" items="${diaries}" varStatus="loop">
-				${diary.id} <!-- 잘 나오는지 확인 -->
-					<a href="../diary/detail?id=${diary.id}" class="note note-animate" style="animation-delay: ${loop.index * 0.1}s">
-						<div class="text-xs text-gray-500 mb-1">${diary.regDate}</div>
-						<div class="text-sm text-gray-700">
-							${fn:substring(diary.body, 0, 50)}
-							<c:if test="${fn:length(diary.body) > 50}">...</c:if>
-						</div>
-					</a>
+				<c:forEach var="item" items="${items}" varStatus="loop">
+					<c:choose>
+						<c:when test="${item.chat}">
+							<!-- 🟠 채팅 스타일로 출력 -->
+							<a href="../chat/detail?id=${item.id}" class="note note-animate bg-[#D1C4E9]"
+								style="animation-delay: ${loop.index * 0.1}s">
+								<div class="text-xs text-purple-500 mb-1">${item.regDate}</div>
+								<div class="text-sm text-gray-800">
+									🙋‍♀️ 대화: ${fn:substring(item.body, 0, 40)}
+									<c:if test="${fn:length(item.body) > 40}">...</c:if>
+								</div>
+							</a>
+						</c:when>
+						<c:otherwise>
+							<!-- 🟡 일기 스타일로 출력 -->
+							<a href="../diary/detail?id=${item.id}" class="note note-animate bg-[#FFF9C4]"
+								style="animation-delay: ${loop.index * 0.1}s">
+								<div class="text-xs text-gray-500 mb-1">${item.regDate}</div>
+								<div class="text-sm text-gray-700">
+									📔 일기: ${fn:substring(item.body, 0, 50)}
+									<c:if test="${fn:length(item.body) > 50}">...</c:if>
+								</div>
+							</a>
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
 
-				<c:if test="${empty diaries}">
+				<c:if test="${empty items}">
 					<div class="text-gray-400 text-sm">아직 일기가 없어.</div>
 				</c:if>
 			</div>

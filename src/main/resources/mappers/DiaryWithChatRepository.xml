@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.feel.repository.DiaryWithChatRepository">
+
+	<select id="getForPrintDiaryWithChats"
+		resultType="DiaryWithChat">
+		SELECT
+		cd.id,
+		cd.memberId,
+		cd.body,
+		cd.isChat,
+		cd.emoTagId,
+		cd.regDate,
+		cd.updateDate,
+		cd.delStatus,
+		ar.reply AS aiReplyBody,
+		ar.regDate AS aiReplyRegDate
+		FROM chatDiary AS cd
+		LEFT JOIN aiReply AS
+		ar
+		ON cd.id = ar.chatdiaryId
+		WHERE cd.memberId = #{memberId}
+		AND
+		cd.delStatus = 0
+		ORDER BY cd.id DESC
+	</select>
+
+
+
+</mapper>
