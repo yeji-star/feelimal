@@ -83,12 +83,22 @@ public class ChatController {
     
     @PostMapping("/continue")
     @ResponseBody
-    public ResultData<?> doContinue(@RequestParam int chatId, @RequestParam String newBody) {
+    public ResultData<List<ChatWithAi>> doContinue(@RequestParam int sessionId, @RequestParam String newBody) {
         int memberId = rq.getLoginedMemberId();
         
-        chatService.modifyChat(memberId, chatId, newBody);
+        // 사용자 메시지 저장 (기존 세션에 이어쓰기)
+        int chatId = chatService.writeUserMessage(memberId, sessionId, newBody);
         
-        return ResultData.from("S-1", "수정 했어.");
+        // Flask에 요청 보내기
+        String answer = chatService.askToFlask(newBody);
+        
+        // AI 응답 저장
+        chatService.writeAiReply(chatId, answer, "gpt-3.5-turbo");
+        
+     // 4. 사용자 메시지 리턴
+        List<ChatWithAi> messages = chatService.getChatsWithAiBySessionId(sessionId);
+        
+        return ResultData.from("S-1", "채팅 성공", "messages", messages);
     }
 
     @PostMapping("/delete")
