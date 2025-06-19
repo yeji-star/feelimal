@@ -86,24 +86,28 @@ body {
 			<div class="msg him">오늘 무슨 일이 있었어?</div>
 		</div>
 
-		<div class="chat-box" id="chatBox">
-			<!-- 캐릭터가 먼저 말하기 -->
-			<div class="msg you">${chat.body }</div>
-		</div>
+		<c:forEach var="item" items="${messages}">
+			<c:choose>
+				<c:when test="${item.isChat}">
+					<div class="msg you">${item.body}</div>
+				</c:when>
+				<c:otherwise>
+					<div class="msg him">${item.reply}</div>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</div>
 
-		<!-- AI 응답 메시지 -->
-		<c:if test="${not empty chat.aiReply}">
-			<div class="msg him">${chat.aiReply }</div>
-		</c:if>
-
-		<!-- 버튼 -->
-		<div class="btn-group">
-			<a href="/feelimals/chatDiary/list" class="btn">목록</a>
-			<form action="/feelimals/chat/delete" method="post" style="display: inline;">
-				<input type="hidden" name="chatId" value="${chat.id}" />
-				<button type="submit" class="btn">삭제</button>
-			</form>
-		</div>
+	<!-- 버튼 -->
+	<div class="btn-group">
+		<a href="/feelimals/chatDiary/list" class="btn">목록</a>
+		<td style="text-align: center;">
+			<c:if test="${chat.userCanDelete }">
+				<a class="btn btn-outline btn-xs btn-error" onclick="if(confirm('정말 삭제할 거야?') == false) return false;"
+					href="../chat/deleteChat?id=${id }">삭제</a>
+			</c:if>
+		</td>
+	</div>
 	</div>
 
 	<script>

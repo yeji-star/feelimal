@@ -23,6 +23,7 @@ import com.example.feel.service.ChatService;
 import com.example.feel.service.DiaryService;
 import com.example.feel.util.Ut;
 import com.example.feel.vo.Chat;
+import com.example.feel.vo.ChatSession;
 import com.example.feel.vo.ChatWithAi;
 import com.example.feel.vo.Diary;
 import com.example.feel.vo.ResultData;
@@ -71,15 +72,25 @@ public class ChatController {
     // 상세 화면
     
     @GetMapping("/detail")
-    public String showDetail(@RequestParam int sessionId, Model model) {
+    public String showDetail(HttpServletRequest req, @RequestParam int sessionId, Model model) {
+    	Rq rq = (Rq) req.getAttribute("rq");
         int memberId = rq.getLoginedMemberId();
         
         List<ChatWithAi> messages = chatService.getChatsWithAiBySessionId(sessionId);
+                
+        System.out.println("messages.size() = " + messages.size());
         
         model.addAttribute("messages", messages);
+        model.addAttribute("sessionId", sessionId);
+        
+    	ChatSession session = chatService.getChatSessionById(sessionId);
+    	boolean userCanDelete = (session != null && session.getMemberId() == memberId);
+    	model.addAttribute("userCanDelete", userCanDelete);
         
         return "feelimals/chat/detail";
     }
+    
+    // 기존에 있는 채팅 이어 하기
     
     @PostMapping("/continue")
     @ResponseBody
@@ -95,19 +106,53 @@ public class ChatController {
         // AI 응답 저장
         chatService.writeAiReply(chatId, answer, "gpt-3.5-turbo");
         
-     // 4. 사용자 메시지 리턴
+        // 사용자 메시지 리턴
         List<ChatWithAi> messages = chatService.getChatsWithAiBySessionId(sessionId);
         
         return ResultData.from("S-1", "채팅 성공", "messages", messages);
     }
+    
+    // 대화 한개만 삭제하기 (나중에 하던가 해야지...)
 
-    @PostMapping("/delete")
-    @ResponseBody
-    public ResultData<?> doDelete(@RequestParam int chatId) {
-        int memberId = rq.getLoginedMemberId();
-        
-        chatService.deleteById(memberId, chatId);
-        
-        return ResultData.from("S-1", "삭제 했어.");
-    }
+//    @PostMapping("/delete")
+//    @ResponseBody
+//    public ResultData<?> doDelete(@RequestParam int chatId) {
+//        int memberId = rq.getLoginedMemberId();
+//        
+//        chatService.deleteById(memberId, chatId);
+//        
+//        return ResultData.from("S-1", "삭제 했어.");
+//    }
+
+    // 대화 전체 삭제
+    
+    @PostMapping("/deleteChat")
+	@ResponseBody
+	public String doDeleteChatSession(HttpServletRequest req, Model model, int id) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+
+		ChatSession sessionId = chatService.getChatSessionById(id);
+
+		
+		if (sessionId == null) {
+			return Ut.jsHistoryBack("F-1", Ut.f("%d번 대화는 없어.", id));
+		}
+
+		
+		ResultData userCanDeleteRd = chatService.userCanDeleteSession(rq.getLoginedMemberId(), sessionId);
+		
+		if (userCanDeleteRd.isFail()) {
+			return Ut.jsHistoryBack(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg());
+		}
+
+		if (userCanDeleteRd.isSuccess()) {
+			chatService.doDeleteChatSession(id);
+		}
+		
+		
+
+		return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../chatDiary/list");
+	}
+    
 }

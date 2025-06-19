@@ -9,10 +9,12 @@
 	<insert id="writeUserMessage">
 		INSERT INTO chatDiary
 		SET memberId = #{memberId},
+		sessionId = #{sessionId},
 		body
 		= #{body},
 		regDate = NOW(),
-		updateDate = NOW(),
+		updateDate =
+		NOW(),
 		isChat = true,
 		emoTagId =
 		0
@@ -36,7 +38,7 @@
 	</insert>
 
 	<!-- 단일 메시지+응답 조회 -->
-	<select id="getChatWithAiByChatId"
+	<select id="getChatsWithAiBySessionId"
 		resultType="com.example.feel.vo.ChatWithAi">
 		SELECT
 		cd.id AS chatId,
@@ -47,13 +49,11 @@
 		ar.model AS model,
 		ar.regDate AS
 		aiRegDate
-		FROM chatDiary AS cd
-		LEFT JOIN aiReply AS ar ON cd.id =
-		ar.chatdiaryId
-		WHERE cd.id = #{chatId}
+		FROM chatDiary cd
+		LEFT JOIN aiReply ar ON cd.id = ar.chatdiaryId
+		WHERE cd.sessionId = #{sessionId}
 		AND cd.isChat = true
-		AND
-		cd.delStatus = 0
+		ORDER BY cd.id ASC
 	</select>
 
 	<!-- 전체 채팅 목록 -->
@@ -82,21 +82,52 @@
 	<update id="modifyChat">
 		UPDATE chatDiary
 		SET body = #{newBody},
-		updateDate = NOW()
+		updateDate =
+		NOW()
 		WHERE id = #{chatId}
 		AND memberId = #{memberId}
 		AND isChat = true
 		AND delStatus = 0
 	</update>
 
-	<!-- 사용자 메시지 삭제 -->
-	<update id="deleteById">
-		UPDATE chatDiary
-		SET delStatus = 1,
-		delDate = NOW()
-		WHERE id = #{chatId}
+	<!-- 사용자 메시지 삭제 <update id="deleteById"> UPDATE chatDiary SET delStatus 
+		= 1, delDate = NOW() WHERE id = #{chatId} AND memberId = #{memberId} AND 
+		isChat = true </update> -->
+
+	<select id="getChatSessionById"
+		resultType="com.example.feel.vo.ChatSession">
+		SELECT * FROM chatSession
+		WHERE id = #{id}
+	</select>
+
+	<!-- 대화 전체 삭제 -->
+	<delete id="doDeleteChatSession">
+		DELETE FROM chatSession
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 대화 삭제할 때 chatDiary에 있는 데이터까지 같이 삭제 -->
+	<delete id="doDeleteChatDiarySession">
+		DELETE FROM chatDiary
+		WHERE chatSessionId =
+		#{chatSessionId}
+	</delete>
+
+	<select id="countSessionByMemberId" resultType="int">
+		SELECT COUNT(*)
+		FROM chatSession
+		WHERE id = #{sessionId}
 		AND memberId = #{memberId}
-		AND isChat = true
-	</update>
+		AND
+		delStatus = 0
+	</select>
+
+	<!-- 새 세션 생성 -->
+	<insert id="createChatSession">
+		INSERT INTO chatSession
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		memberId = #{memberId}
+	</insert>
 
 </mapper>

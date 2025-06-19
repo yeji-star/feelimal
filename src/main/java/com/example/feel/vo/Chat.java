@@ -16,7 +16,7 @@ public class Chat {
 	private int id;
     private int memberId;
     private int emoTagId;
-    private int chatSessionId;
+    private int sessionId;
     private String body;
     private String regDate;
     private String updateDate;
@@ -24,5 +24,7 @@ public class Chat {
     private LocalDateTime delDate;
 	
 	private boolean isChat;
+	
+	private boolean userCanDelete;
 
 }

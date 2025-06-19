@@ -21,4 +21,5 @@ public class ChatSession {
     private boolean delStatus;
     private LocalDateTime delDate;
 
+    private boolean userCanDelete;
 }

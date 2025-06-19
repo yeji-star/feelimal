@@ -12,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.feel.FeelimalsApplication;
 import com.example.feel.repository.ChatRepository;
 import com.example.feel.repository.DiaryRepository;
 import com.example.feel.util.Ut;
 import com.example.feel.vo.Chat;
+import com.example.feel.vo.ChatSession;
 import com.example.feel.vo.ChatWithAi;
 import com.example.feel.vo.Diary;
 import com.example.feel.vo.ResultData;
@@ -23,13 +25,19 @@ import com.example.feel.vo.ResultData;
 @Service
 public class ChatService {
 
+    private final FeelimalsApplication feelimalsApplication;
+
 	@Autowired
 	private ChatRepository chatRepository;
+
+    ChatService(FeelimalsApplication feelimalsApplication) {
+        this.feelimalsApplication = feelimalsApplication;
+    }
 
 	// 사용자 메시지 저장
 	public int writeUserMessage(int memberId, int sessionId, String body) {
 		boolean isChat = true;
-		chatRepository.writeUserMessage(memberId, body, true);
+		chatRepository.writeUserMessage(memberId, sessionId, body, true);
 		return chatRepository.getLastInsertId();
 	}
 
@@ -59,15 +67,15 @@ public class ChatService {
 	}
 
 	// 채팅 하나 조회
-	public Chat getChatById(int chatId) {
-		return chatRepository.getChatById(chatId);
+	public ChatSession getChatSessionById(int id) {
+		return chatRepository.getChatSessionById(id);
 
 	}
 
 	// 봇 대화
-	public List<ChatWithAi> getChatsWithAiBySessionId(int chatId) {
+	public List<ChatWithAi> getChatsWithAiBySessionId(int sessionId) {
 		
-		return chatRepository.getChatsWithAiBySessionId(chatId);
+		return chatRepository.getChatsWithAiBySessionId(sessionId);
 	}
 
 	// 사용자의 대화
@@ -87,10 +95,34 @@ public class ChatService {
 		chatRepository.deleteById(memberId, chatId);
 
 	}
+	
+	public void doDeleteChatSession(int id) {
+		chatRepository.doDeleteChatSession(id);
+		chatRepository.doDeleteChatDiarySession(id);
 
+	}
+
+	// 새 세션 만들기
 	public int createNewChatSession(int memberId) {
+		chatRepository.createNewChatSession(memberId);
+		
+		return chatRepository.getLastInsertId();
+	}
+
+	public void deleteChatSessionById(int sessionId) {
 		// TODO Auto-generated method stub
-		return 0;
+		
+	}
+	
+	// 삭제 가능??
+
+	public ResultData userCanDeleteSession(int loginedMemberId, ChatSession session) {
+
+		if (session.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-A", Ut.f("%d번 대화를 삭제 할 수 없어.", session.getId()));
+		}
+
+		return ResultData.from("S-1", Ut.f("%d번 대화를 삭제할 수 있어.", session.getId()));
 	}
 
 }

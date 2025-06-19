@@ -139,7 +139,7 @@ opacity
 					<c:choose>
 						<c:when test="${item.isChat}">
 							<!-- 🟠 채팅 스타일로 출력 -->
-							<a href="../chat/detail?id=${item.id}" class="note note-animate bg-[#D1C4E9]"
+							<a href="../chat/detail?sessionId=${item.id}" class="note note-animate bg-[#D1C4E9]"
 								style="animation-delay: ${loop.index * 0.1}s">
 								<div class="text-xs text-gray-500 mb-1">${item.regDate}</div>
 								<div class="text-sm text-gray-800">
