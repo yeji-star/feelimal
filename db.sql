@@ -17,6 +17,8 @@ CREATE TABLE `member` (
   `delDate` DATETIME
 );
 
+
+
 CREATE TABLE `chara` (
   `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `regDate` DATETIME NOT NULL,
@@ -27,92 +29,92 @@ CREATE TABLE `chara` (
 );
 
 CREATE TABLE `charaEmo` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `charaId` INT(10) UNSIGNED NOT NULL,
-  `emoId` INT(10) UNSIGNED NOT NULL,
-  `emoType` VARCHAR(50) NOT NULL,
-  `image` VARCHAR(100) NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `charaId` int(10) UNSIGNED NOT NULL,
+  `emoId` int(10) UNSIGNED NOT NULL,
+  `emoType` varchar(50) NOT NULL,
+  `image` varchar(100) NOT NULL
 );
 
 CREATE TABLE `emoTag` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `label` CHAR(20) UNIQUE NOT NULL,
-  `icon` CHAR(20) NOT NULL,
-  `color` CHAR(10) NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `label` char(20) UNIQUE NOT NULL,
+  `icon` char(20) NOT NULL,
+  `color` char(10) NOT NULL
 );
 
 CREATE TABLE `chatDiary` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `memberId` INT(10) UNSIGNED NOT NULL,
-  `chatSessionId` INT(10) UNSIGNED NOT NULL,
-  `body` TEXT NOT NULL,
-  `isUser` BOOLEAN DEFAULT TRUE COMMENT 'true면 사용자, false면 AI',
-  `isChat` BOOLEAN DEFAULT FALSE COMMENT 'true면 채팅, false면 일기',
-  `emoTagId` INT(10) UNSIGNED NOT NULL,
-  `regDate` DATETIME NOT NULL,
-  `updateDate` DATETIME NOT NULL,
-  `delStatus` TINYINT(1) NOT NULL DEFAULT 0,
-  `delDate` DATETIME
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `memberId` int(10) UNSIGNED NOT NULL,
+  `sessionId` int(10) unsigned null,
+  `body` text NOT NULL,
+  `isUser` boolean default true comment 'true면 사용자, false면 AI',
+  `thisChat` boolean DEFAULT false comment 'true면 채팅, false면 일기',
+  `emoTagId` int(10) UNSIGNED NOT NULL,
+  `regDate` datetime NOT NULL,
+  `updateDate` datetime NOT NULL,
+  `delStatus` tinyint(1) NOT NULL DEFAULT 0,
+  `delDate` datetime
 );
 
-CREATE TABLE `chatSession` (
-`id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-`memberId` INT(10) UNSIGNED NOT NULL,
-`title` CHAR(100) DEFAULT NULL,
-regDate DATETIME NOT NULL,
-updateDate DATETIME NOT NULL,
-delStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0이면 삭제 안됨, 1이면 삭제됨',
-delDate DATETIME
+create table `chatSession` (
+`id` int(10) unsigned primary key not null auto_increment,
+`memberId` int(10) unsigned not null,
+`title` char(100) default null,
+regDate datetime not null,
+updateDate datetime not null,
+delStatus tinyint(1) not null default 0 comment '0이면 삭제 안됨, 1이면 삭제됨',
+delDate datetime
 );
 
 CREATE TABLE `diaryEmo` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `chatdiaryId` INT(10) UNSIGNED NOT NULL,
-  `emoTagId` INT(10) UNSIGNED NOT NULL,
-  `score` FLOAT NOT NULL,
-  `source` CHAR(50) NOT NULL,
-  `regDate` DATETIME NOT NULL,
-  `updateDate` DATETIME NOT NULL,
-  `delStatus` TINYINT(1) NOT NULL,
-  `delDate` DATETIME
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `chatdiaryId` int(10) UNSIGNED NOT NULL,
+  `emoTagId` int(10) UNSIGNED NOT NULL,
+  `score` float NOT NULL,
+  `source` char(50) NOT NULL,
+  `regDate` datetime NOT NULL,
+  `updateDate` datetime NOT NULL,
+  `delStatus` tinyint(1) NOT NULL,
+  `delDate` datetime
 );
 
 CREATE TABLE `emotionFeedback` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `emoTagId` INT(10) UNSIGNED NOT NULL,
-  `message` TEXT NOT NULL,
-  `emoType` CHAR(20) NOT NULL,
-  `regDate` DATETIME NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `emoTagId` int(10) UNSIGNED NOT NULL,
+  `message` text NOT NULL,
+  `emoType` char(20) NOT NULL,
+  `regDate` datetime NOT NULL
 );
 
 CREATE TABLE `aiReply` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `chatDiaryId` INT(10) UNSIGNED NOT NULL,
-  `reply` TEXT NOT NULL,
-  `regDate` DATETIME NOT NULL,
-  `updateDate` DATETIME NOT NULL,
-  `model` CHAR(50) NOT NULL,
-  `delStatus` TINYINT(1) NOT NULL DEFAULT 0,
-  `delDate` DATETIME
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `chatDiaryId` int(10) UNSIGNED NOT NULL,
+  `reply` text NOT NULL,
+  `regDate` datetime NOT NULL,
+  `updateDate` datetime NOT NULL,
+  `model` char(50) NOT NULL,
+  `delStatus` tinyint(1) NOT NULL DEFAULT 0,
+  `delDate` datetime
 );
 
 CREATE TABLE `calendar` (
-  `date` DATE PRIMARY KEY NOT NULL,
-  `year` INT(10) NOT NULL,
-  `month` INT(10) NOT NULL,
-  `day` INT(10) NOT NULL,
-  `dayName` CHAR(10) NOT NULL,
-  `isWeekend` BOOLEAN,
-  `isHoliday` BOOLEAN DEFAULT FALSE
+  `date` date PRIMARY KEY NOT NULL,
+  `year` int(10) NOT NULL,
+  `month` int(10) NOT NULL,
+  `day` int(10) NOT NULL,
+  `dayName` char(10) NOT NULL,
+  `isWeekend` boolean,
+  `isHoliday` boolean DEFAULT false
 );
 
 
 CREATE TABLE `settings` (
-  `id` INT(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `memberId` INT(10) UNSIGNED NOT NULL,
-  `charaId` INT(10) UNSIGNED NOT NULL,
-  `alert` BOOLEAN NOT NULL DEFAULT TRUE,
-  `updateDate` DATETIME NOT NULL
+  `id` int(10) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `memberId` int(10) UNSIGNED NOT NULL,
+  `charaId` int(10) UNSIGNED NOT NULL,
+  `alert` boolean NOT NULL DEFAULT true,
+  `updateDate` datetime NOT NULL
 );
 
 ALTER TABLE `charaEmo` ADD FOREIGN KEY (`charaId`) REFERENCES `chara` (`id`);
@@ -123,7 +125,7 @@ ALTER TABLE `settings` ADD FOREIGN KEY (`memberId`) REFERENCES `member` (`id`);
 
 ALTER TABLE `chatDiary` ADD FOREIGN KEY (`memberId`) REFERENCES `member` (`id`);
 
-ALTER TABLE `chatDiary` ADD FOREIGN KEY (`chatSessionId`) REFERENCES `chatSession` (`id`);
+ALTER TABLE `chatDiary` ADD FOREIGN KEY (`sessionId`) REFERENCES `chatSession` (`id`);
 
 ALTER TABLE `diaryEmo` ADD FOREIGN KEY (`chatdiaryId`) REFERENCES `chatDiary` (`id`);
 
@@ -142,9 +144,9 @@ SHOW TABLES;
 
 # 테스트 데이터 (유저)
 
-INSERT INTO `member`
-SET regDate = NOW(),
-	updateDate = NOW(),
+insert into `member`
+set regDate = now(),
+	updateDate = now(),
 	loginId = 'test1',
 	loginPw = 'test1',
 	nickname = 'test1',
@@ -178,7 +180,7 @@ INSERT INTO chatDiary
 SET
   memberId = 1,
   `body` = '오늘은 오랜만에 햇살이 따뜻했어.',
-  isChat = FALSE,
+  thisChat = FALSE,
   emoTagId = 1,
   regDate = NOW(),
   updateDate = NOW(),
@@ -188,45 +190,68 @@ INSERT INTO chatDiary
 SET
   memberId = 1,
   `body` = '조금 힘들었지만 잘 견뎠어.',
-  isChat = FALSE,
+  thisChat = FALSE,
   emoTagId = 2,
   regDate = NOW(),
   updateDate = NOW(),
   delStatus = 0;
   
+# 테스트 데이터 (세션)
+
+insert into chatSession
+set
+	memberId = 1,
+	title = '대화1',
+	regDate = now(),
+	updateDate = now();
+  
+SELECT LAST_INSERT_ID();  
+  
 # 테스트 데이터 (대화)
 
-INSERT INTO chatDiary
-SET 
+insert into chatDiary
+set 
 memberId = 1,
+sessionId = 1,
 `body` = '오늘 좀 힘들었어. 위로해줘.',
-isChat = TRUE,
+thisChat = true,
 emoTagId = 2,
-regDate = NOW(),
-updateDate = NOW(),
+regDate = now(),
+updateDate = now(),
 delStatus = 0;
-
-SELECT LAST_INSERT_ID();
 
 # 테스트 데이터 (ai응답)
 
-INSERT INTO aiReply
-SET
-chatDiaryId = 3,
+insert into aiReply
+set
+chatDiaryId = 1,
 reply = '힘들었구나.',
-regDate = NOW(),
-updateDate = NOW(),
+regDate = now(),
+updateDate = now(),
 model = 'gpt-3.5-turbo',
 delStatus = 0;
 
+SELECT * FROM aiReply WHERE chatdiaryId IN (SELECT id FROM chatDiary WHERE sessionId = 3);
 
-SELECT *
-FROM `member`;
+
+select *
+from `member`;
 
 SELECT * FROM emoTag;
 SELECT * FROM chatDiary;
 
-DESC `member`;
+desc `member`;
+
+SELECT cd.id, cd.body, cd.sessionId, cd.thisChat, ar.reply
+FROM chatDiary cd
+LEFT JOIN aiReply ar ON ar.chatDiaryId = cd.id
+WHERE cd.sessionId = 1;
+
+select * from chatDiary
+inner join chatSession
+on chatDiary.sessionId = chatSession.id
+inner join aiReply
+on aiReply.chatDiaryId = chatDiary.id;
 
 #########
 

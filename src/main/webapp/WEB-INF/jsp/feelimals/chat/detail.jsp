@@ -83,18 +83,18 @@ body {
 	<div class="relative">
 		${item.body}
 
-<!-- 메뉴 버튼 -->
+		<!-- 메뉴 버튼 -->
 		<button onclick="toggleEditMenu()" class="absolute top-4 right-4 hover:opacity-80 transition"
 			style="color: #FFA726; font-size: 21px;">☰</button>
-			
-			<!-- 수정/삭제 -->
+
+		<!-- 수정/삭제 -->
 		<div id="editMenu"
 			class="absolute top-4 right-4 px-3 py-2 rounded-xl text-base shadow space-y-1 hidden border transition-all"
 			style="background-color: #FFD8A1; border-color: #FDC78A;">
 
 			<button onclick="toggleEditMenu()" class="float-right text-sm font-bold" style="color: #FB8C00;">✕</button>
 			<br>
-			
+
 			<a href="/feelimals/chat/continue?id=${sessionId}" class="block text-center py-1 rounded font-semibold transition"
 				style="color: #FB8C00;">이어하기</a>
 			<a href="/feelimals/chat/deleteChat?id=${sessionId}" onclick="return confirm('정말 삭제할까?');"
