@@ -3,15 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.feel.repository.DiaryWithChatRepository">
+<mapper
+	namespace="com.example.feel.repository.DiaryWithChatRepository">
 
 	<select id="getForPrintDiaryWithChats"
 		resultType="DiaryWithChat">
 		SELECT
 		cd.id,
 		cd.memberId,
+		cd.sessionId,
 		cd.body,
-		cd.isChat,
+		cd.thisChat,
 		cd.emoTagId,
 		cd.regDate,
 		cd.updateDate,
@@ -19,13 +21,12 @@
 		ar.reply AS aiReplyBody,
 		ar.regDate AS aiReplyRegDate
 		FROM chatDiary AS cd
-		LEFT JOIN aiReply AS
-		ar
+		LEFT JOIN aiReply AS ar 
 		ON cd.id = ar.chatdiaryId
 		WHERE cd.memberId = #{memberId}
-		AND
-		cd.delStatus = 0
+		AND cd.delStatus = 0
 		ORDER BY cd.id DESC
+
 	</select>
 
 

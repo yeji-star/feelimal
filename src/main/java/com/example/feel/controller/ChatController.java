@@ -78,7 +78,8 @@ public class ChatController {
         
         List<ChatWithAi> messages = chatService.getChatsWithAiBySessionId(sessionId);
                 
-        System.out.println("messages.size() = " + messages.size());
+        System.out.println("sessionId: " + sessionId);
+        System.out.println("불러온 메시지 수: " + messages.size());
         
         model.addAttribute("messages", messages);
         model.addAttribute("sessionId", sessionId);

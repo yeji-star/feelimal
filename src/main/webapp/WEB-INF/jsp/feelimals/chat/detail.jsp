@@ -80,22 +80,50 @@ body {
 </head>
 <body class="bg-[#FAF7F5] min-h-screen">
 
+	<div class="relative">
+		${item.body}
+
+<!-- 메뉴 버튼 -->
+		<button onclick="toggleEditMenu()" class="absolute top-4 right-4 hover:opacity-80 transition"
+			style="color: #FFA726; font-size: 21px;">☰</button>
+			
+			<!-- 수정/삭제 -->
+		<div id="editMenu"
+			class="absolute top-4 right-4 px-3 py-2 rounded-xl text-base shadow space-y-1 hidden border transition-all"
+			style="background-color: #FFD8A1; border-color: #FDC78A;">
+
+			<button onclick="toggleEditMenu()" class="float-right text-sm font-bold" style="color: #FB8C00;">✕</button>
+			<br>
+			
+			<a href="/feelimals/chat/continue?id=${sessionId}" class="block text-center py-1 rounded font-semibold transition"
+				style="color: #FB8C00;">이어하기</a>
+			<a href="/feelimals/chat/deleteChat?id=${sessionId}" onclick="return confirm('정말 삭제할까?');"
+				class="block text-center py-1 rounded font-semibold transition" style="color: #E53935;">삭제</a>
+		</div>
+	</div>
+
 	<div class="chat-container">
 		<div class="chat-box" id="chatBox">
 			<!-- 캐릭터가 먼저 말하기 -->
 			<div class="msg him">오늘 무슨 일이 있었어?</div>
+
+			<c:forEach var="item" items="${messages}">
+				<c:choose>
+					<c:when test="${item.thisChat}">
+						<div class="msg you">${item.body}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="msg him">${item.reply}</div>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
 		</div>
 
-		<c:forEach var="item" items="${messages}">
-			<c:choose>
-				<c:when test="${item.isChat}">
-					<div class="msg you">${item.body}</div>
-				</c:when>
-				<c:otherwise>
-					<div class="msg him">${item.reply}</div>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
+		<!-- 입력창 -->
+		<div class="chat-input">
+			<input type="text" id="userInput" placeholder="오늘 있었던 일을 말해봐." class="input input-warning" disabled>
+			<button onclick="sendMessage()" disabled>보내기</button>
+		</div>
 	</div>
 
 	<!-- 버튼 -->
@@ -137,6 +165,22 @@ body {
 						sendMessage();
 					}
 				});
+
+		function toggleEditMenu(button) {
+			const menu = button.nextElementSibling;
+			menu.classList.toggle('hidden');
+		}
+
+		// 수정 가능 상태로 만들기
+		function enableEdit(chatId) {
+			const input = document.getElementById("userInput");
+			input.disabled = false;
+			input.focus();
+
+			document.getElementById("sendBtn").innerText = "수정 저장";
+			document.getElementById("sendBtn").setAttribute("data-edit-id",
+					chatId);
+		}
 	</script>
 
 </body>

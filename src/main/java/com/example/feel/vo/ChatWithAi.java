@@ -16,9 +16,9 @@ public class ChatWithAi {
     // chatDiary
     private int id;
     private int memberId;
-    private int chatSessionId;
+    private int sessionId;
     private String body;
-    private boolean isChat;
+    private boolean thisChat;
     private int emoTagId;
     private String regDate;
 

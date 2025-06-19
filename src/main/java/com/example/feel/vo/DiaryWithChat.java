@@ -16,13 +16,14 @@ public class DiaryWithChat {
 	private int id;
 	private int memberId;
 	private int emoTagId;
+	private Integer sessionId; // integer 여야만 null이 가능
 	private String regDate;
 	private String updateDate;
 	private String body;
 	private boolean delStatus;
 	private LocalDateTime delDate;
 	
-	private Boolean isChat;
+	private Boolean thisChat;
 	private String writer;
 	
 	private String aiReply;

@@ -15,7 +15,7 @@
 		regDate = NOW(),
 		updateDate =
 		NOW(),
-		isChat = true,
+		thisChat = true,
 		emoTagId =
 		0
 
@@ -37,22 +37,25 @@
 		updateDate = NOW()
 	</insert>
 
-	<!-- 단일 메시지+응답 조회 -->
+	<!-- 전체 조회 -->
 	<select id="getChatsWithAiBySessionId"
 		resultType="com.example.feel.vo.ChatWithAi">
 		SELECT
 		cd.id AS chatId,
-		cd.body AS userBody,
+		cd.body AS body,
 		cd.regDate AS
 		userRegDate,
+		cd.thisChat as thisChat,
 		ar.reply AS aiReply,
 		ar.model AS model,
 		ar.regDate AS
 		aiRegDate
 		FROM chatDiary cd
-		LEFT JOIN aiReply ar ON cd.id = ar.chatdiaryId
+		LEFT JOIN aiReply ar
+		ON cd.id = ar.chatdiaryId
 		WHERE cd.sessionId = #{sessionId}
-		AND cd.isChat = true
+		AND cd.thisChat
+		= true
 		ORDER BY cd.id ASC
 	</select>
 
@@ -69,12 +72,12 @@
 		ar.regDate AS
 		aiRegDate
 		FROM chatDiary cd
-		LEFT JOIN aiReply ar ON cd.id =
+		LEFT JOIN aiReply ar
+		ON cd.id =
 		ar.chatdiaryId
 		WHERE cd.memberId = #{memberId}
-		AND cd.isChat = true
-		AND
-		cd.delStatus = 0
+		AND cd.thisChat =
+		true
 		ORDER BY cd.id DESC
 	</select>
 
@@ -86,8 +89,7 @@
 		NOW()
 		WHERE id = #{chatId}
 		AND memberId = #{memberId}
-		AND isChat = true
-		AND delStatus = 0
+		AND thisChat = true
 	</update>
 
 	<!-- 사용자 메시지 삭제 <update id="deleteById"> UPDATE chatDiary SET delStatus 

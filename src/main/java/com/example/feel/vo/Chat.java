@@ -23,7 +23,7 @@ public class Chat {
     private boolean delStatus;
     private LocalDateTime delDate;
 	
-	private boolean isChat;
+	private boolean thisChat;
 	
 	private boolean userCanDelete;
 
