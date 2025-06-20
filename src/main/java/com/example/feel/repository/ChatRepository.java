@@ -12,11 +12,13 @@ import com.example.feel.vo.ChatWithAi;
 @Mapper
 public interface ChatRepository {
 
-	public void writeUserMessage(int memberId, int sessionId, String body, boolean b);
+	public void writeUserMessage(int memberId, int sessionId, String body, int emoTagId, boolean isUser, boolean thisChat);
 
 	public int getLastInsertId();
 
 	public void writeAiReply(int chatId, String reply, String model);
+	
+	public Integer getEmoTagIdByEmotion(String emotion);
 
 	public ChatSession getChatSessionById(int id);
 
@@ -35,5 +37,7 @@ public interface ChatRepository {
 	public void doDeleteChatSession(int id);
 
 	public void doDeleteChatDiarySession(int id);
+
+	
 }
 

@@ -12,13 +12,13 @@
 		sessionId = #{sessionId},
 		body
 		= #{body},
+		isUser = #{isUser},
+		thisChat = #{thisChat},
+		emoTagId = #{emoTagId},
 		regDate = NOW(),
 		updateDate =
-		NOW(),
-		thisChat = true,
-		emoTagId =
-		0
-
+		NOW()
+			
 	</insert>
 
 	<!-- 최근 저장된 id 조회 -->
@@ -26,7 +26,7 @@
 		SELECT LAST_INSERT_ID()
 	</select>
 
-	<!-- AI 응답 저장 -->
+	<!-- AI 답변 저장 -->
 	<insert id="writeAiReply">
 		INSERT INTO aiReply
 		SET chatdiaryId = #{chatId},
@@ -36,6 +36,13 @@
 		regDate = NOW(),
 		updateDate = NOW()
 	</insert>
+
+	<!-- 감정명(label)으로 emoTag id 조회 -->
+	<select id="getEmoTagIdByEmotion" resultType="int">
+		SELECT id 
+		FROM emoTag 
+		WHERE label = #{emotion}
+	</select>
 
 	<!-- 전체 조회 -->
 	<select id="getChatsWithAiBySessionId"
@@ -47,12 +54,14 @@
 		userRegDate,
 		cd.thisChat as thisChat,
 		ar.reply AS aiReply,
-		ar.model AS model,
+		ar.model AS
+		model,
 		ar.regDate AS
 		aiRegDate
 		FROM chatDiary cd
 		LEFT JOIN aiReply ar
-		ON cd.id = ar.chatdiaryId
+		ON
+		cd.id = ar.chatdiaryId
 		WHERE cd.sessionId = #{sessionId}
 		AND cd.thisChat
 		= true
@@ -125,7 +134,7 @@
 	</select>
 
 	<!-- 새 세션 생성 -->
-	<insert id="createChatSession">
+	<insert id="createNewChatSession">
 		INSERT INTO chatSession
 		SET regDate = NOW(),
 		updateDate = NOW(),
