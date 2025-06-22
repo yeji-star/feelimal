@@ -37,8 +37,8 @@ public class CalendarController {
 			item.put("type", d.isChat() ? "chat" : "diary");
 			item.put("body", trim(d.getBody()));
 			item.put("url", d.isChat()
-			    ? "/feelimals/chat/detail/" + d.getId()
-			    : "/feelimals/diary/detail/" + d.getId());
+			    ? "/feelimals/chat/detail?id=" + d.getId()
+			    : "/feelimals/diary/detail?id=" + d.getId());
 
 			result.add(item);
 		}

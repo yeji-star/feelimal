@@ -142,7 +142,7 @@ public class DiaryController {
 			diaryService.deleteDiary(id);
 		}
 
-		return Ut.jsReplace("", "삭제했어.", "/feelimals/diary/list");
+		return Ut.jsReplace("", "삭제했어.", "/feelimals/chatDiary/list");
 	}
 
 	/*

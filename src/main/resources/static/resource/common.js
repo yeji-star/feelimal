@@ -40,14 +40,7 @@ function DiaryModify__submit(form) {
 	return true;
 }
 
-document.getElementById('userInput').addEventListener('keydown', function(e) {
-	if (e.key === 'Enter') {
-		e.preventDefault();
-		sendMessage();
-	}
-});
-
-const sessionId = window.sessionId || "";
+var sessionId = window.sessionId || "";
 
 function sendMessage() {
 	// 입력창에서 텍스트 읽기
@@ -117,4 +110,15 @@ function renderMessages(messages) {
 		}
 	});
 	chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// 에러 방지
+const inputBox = document.getElementById('userInput');
+if (inputBox) {
+	inputBox.addEventListener('keydown', function(e) {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			sendMessage();
+		}
+	});
 }

@@ -11,6 +11,11 @@
 <!-- Tailwind 3.x CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.birds.min.js"></script>
+
+
+
 <!-- 사용자 정의 색상 -->
 <script>
 	tailwind.config = {
@@ -43,6 +48,20 @@ html, body {
 	padding: 0;
 	height: 100%;
 }
+
+body, main, header {
+    background-color: transparent !important;
+}
+
+#vanta-bg {
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
 </style>
 
 
@@ -51,8 +70,9 @@ html, body {
 <!-- 🟠 전체 화면 배경 + 중앙 정렬을 위한 기본 설정 -->
 <body class="bg-cream min-h-screen flex flex-col m-0 p-0">
 
-	<%@ include file="/WEB-INF/jsp/feelimals/common/header.jspf"%>
+	<div id="vanta-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
 
+	<%@ include file="/WEB-INF/jsp/feelimals/common/header.jspf"%>
 	<%@ include file="/WEB-INF/jsp/feelimals/common/settings.jspf"%>
 
 	<!-- 로그인 팝업창 -->
@@ -60,6 +80,8 @@ html, body {
 		<%@ include file="/WEB-INF/jsp/feelimals/member/popup-login.jspf"%>
 		<%@ include file="/WEB-INF/jsp/feelimals/member/popup-join.jspf"%>
 	</c:if>
+
+
 
 	<!-- 중앙... 메인 -->
 	<main class="flex-grow flex items-center justify-center text-center">
@@ -97,5 +119,29 @@ html, body {
 
 		</div>
 	</main>
+	<!-- 맨 아래, </body> 직전에 넣기 -->
+<script>
+  $(function () {
+    VANTA.BIRDS({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      backgroundColor: 0xfff0d4,
+      color1: 0x88461e,
+      color2: 0x814803,
+      colorMode: "lerp",
+      wingSpan: 25.00,
+      speedLimit: 4.00,
+      separation: 19.00,
+      quantity: 4.00
+    });
+  });
+</script>
+	
 </body>
 </html>
